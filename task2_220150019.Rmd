@@ -21,12 +21,11 @@ lookup <- structure(c(
   "Sepal Width vs Petal Width" = "Sepal.Width_Petal.Width"
 ))
 lookup1 <- structure(c(
-  "Boxplot of Sepal Length" = "Sepal.Length",
-  "Boxplot of Sepal Width" = "Sepal.Width",
-  "Boxplot of Petal Length" = "Petal.Length",
-  "Boxplot of Petal Width" = "Petal.Width"
+  "Sepal Length" = "Sepal.Length",
+  "Sepal Width" = "Sepal.Width",
+  "Petal Length" = "Petal.Length",
+  "Petal Width" = "Petal.Width"
 ))
-
 
 
 ```
