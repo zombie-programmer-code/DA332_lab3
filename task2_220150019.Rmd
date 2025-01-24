@@ -40,6 +40,20 @@ selectInput('graph_name', label = 'Select the combination for scatterplots', cho
 selectInput('box_name', label = 'Select the combination for boxplots', choices = lookup1, selected = "Sepal Length")
 selectInput('kmeans_x', label = 'X coordinate for KMeans', choices = lookup1, selected = "Sepal Length")
 selectInput('kmeans_y', label = 'Y coordinate for KMeans', choices = lookup1, selected = "Sepal Length")
+selectInput(
+  inputId = 'pca_x',
+  label = 'Select X-axis (PCA)',
+  choices = c("PC1", "PC2", "PC3", "PC4"), # Choices for principal components
+  selected = "PC1" # Default selection
+)
+
+selectInput(
+  inputId = 'pca_y',
+  label = 'Select Y-axis (PCA)',
+  choices = c("PC1", "PC2", "PC3", "PC4"),
+  selected = "PC2" # Default selection
+)
+
 ```
 Scatterplots
 ======================================================================
@@ -51,16 +65,12 @@ output$scatterplot <- renderPlotly({
   
   x_column <- selected_columns[1]
   y_column <- selected_columns[2]
-  print(x_column)
-  print(y_column)
   x1 <- strsplit(x_column, ".")
   x_1 = x1[1]
   x_11 = x1[2]
   y1 <- strsplit(y_column, ".")
   y_1 = y1[1]
   y_11 = y1[2]
-  print(y_1)
-  print(y_11)
   # Create the ggplot object
   p <- ggplot(df, aes_string(x = x_column, y = y_column, color = "Species")) +
     geom_point(alpha = 0.7) + # Scatter points
@@ -85,7 +95,7 @@ Boxplots
 ```{r boxplots, echo=FALSE}
 output$boxplot <- renderPlotly({
   y_column <- input$box_name
-  print(y_column)
+  #print(y_column)
   
   # Create the ggplot object
   p <- ggplot(df, aes_string(x = "Species", y = y_column, fill = "Species")) +
@@ -137,5 +147,38 @@ output$kmeans_plot <- renderPlotly({
 # Render the plot
 plotlyOutput('kmeans_plot', height = "500px")
 
+```
 
+
+PCA
+======================================================================
+
+```{r pca, echo=FALSE}
+output$pca_plot <- renderPlotly({
+  # Perform PCA
+  pca <- prcomp(df[, 1:4], center = TRUE, scale. = TRUE)
+  pcs <- as.data.frame(pca$x) # Convert PCA results to a data frame
+  pcs$Species <- df$Species # Add species back for coloring
+
+  # Dynamically select PCs
+  x_column <- input$pca_x
+  y_column <- input$pca_y
+  print(x_column)
+  print(y_column)
+  # Create ggplot object
+  p <- ggplot(pcs, aes_string(x = x_column, y = y_column, color = "Species")) +
+    geom_point(size = 3, alpha = 0.7) +
+    labs(
+      title = paste("PCA of Iris Dataset:", x_column, "vs", y_column),
+      x = x_column,
+      y = y_column
+    ) +
+    theme_minimal(base_size = 14)
+
+  # Convert ggplot to an interactive plotly plot
+  ggplotly(p)
+})
+
+plotlyOutput('pca_plot', height = "500px")
+```
 
