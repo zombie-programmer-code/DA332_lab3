@@ -6,7 +6,7 @@ output:
     orientation: rows
     vertical_layout: fill
     social: menu
-    source_code: https://github.com/zombie-programmer-code/DA332_lab3/tree/main
+    source_code: https://github.com/zombie-programmer-code/DA332_lab3/blob/main/task2_220150019.Rmd
     theme: simplex
 ---
 
