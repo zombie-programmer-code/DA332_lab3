@@ -1,5 +1,5 @@
 ---
-title: "Visualization of iris dataset using Dashboard and shiny"
+title: "Visualization of iris dataset using flexdashboard"
 runtime: shiny
 output: 
   flexdashboard::flex_dashboard:
